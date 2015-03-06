@@ -1,6 +1,6 @@
 Kafka To Kafka Metrics Reporter
 ==============================
-
+Converts Kafka broker metrics to JSON and writes them a Kafka topic.
 
 Installation
 ------------
