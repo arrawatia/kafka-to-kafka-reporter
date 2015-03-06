@@ -14,10 +14,11 @@ Configuration
 ------------
 1. Make sure that the metrics topic (default: kafka-metrics) exists on the broker. The broker will create it automatically if auto-creation of topics is not disabled.
 2. Edit the `server.properties` file of your installation, activate the reporter by setting:
-
-    kafka.metrics.reporters=com.quantiply.KafkaToKafkaMetricsReporter[,kafka.metrics.KafkaCSVMetricsReporter, ...]
-    kafka.to.kafka.metrics.reporter.enabled=true
-    kafka.to.kafka.metrics.topic=kafka-metrics
+ 
+ 
+        kafka.metrics.reporters=com.quantiply.KafkaToKafkaMetricsReporter[,kafka.metrics.KafkaCSVMetricsReporter, ...]
+        kafka.to.kafka.metrics.reporter.enabled=true
+        kafka.to.kafka.metrics.topic=kafka-metrics
 
 Warning
 ---
