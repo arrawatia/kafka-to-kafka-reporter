@@ -16,7 +16,7 @@ Configuration
 2. Edit the `server.properties` file of your installation, activate the reporter by setting:
  
  
-        kafka.metrics.reporters=com.quantiply.KafkaToKafkaMetricsReporter[,kafka.metrics.KafkaCSVMetricsReporter, ...]
+        kafka.metrics.reporters=com.quantiply.kafka.KafkaToKafkaMetricsReporter[,kafka.metrics.KafkaCSVMetricsReporter, ...]
         kafka.to.kafka.metrics.reporter.enabled=true
         kafka.to.kafka.metrics.topic=kafka-metrics
 
