@@ -49,12 +49,19 @@ public class KafkaToKafkaMetricsReporter implements KafkaMetricsReporter, KafkaT
             props.props().put("metadata.broker.list", String.format("%s:%d", "localhost", props.getInt("port")));
             topic = props.getString("kafka.to.kafka.metrics.topic");
 
+            // Wait for 60 secs before sending messages to let the broker startup cleanly.
+            int initialDelayInSecs = 60;
+            if(props.containsKey("kafka.to.kafka.initialDelayInSecs")){
+                initialDelayInSecs = props.getInt("kafka.to.kafka.initialDelayInSecs");
+            }
             final KafkaMetricsConfig metricsConfig = new KafkaMetricsConfig(props);
 
             this.underlying = new TopicReporter(Metrics.defaultRegistry(),
                     new ProducerConfig(props.props()),
                     topic,
-                    props.getString("broker.id"));
+                    props.getString("broker.id"),
+                    initialDelayInSecs
+            );
 
             if (props.getBoolean("kafka.to.kafka.metrics.reporter.enabled", false)) {
                 initialized = true;
@@ -77,7 +84,6 @@ public class KafkaToKafkaMetricsReporter implements KafkaMetricsReporter, KafkaT
             underlying.shutdown();
             running = false;
             log.info("Stopped Kafka to Kafka metrics reporter");
-            underlying = new TopicReporter(Metrics.defaultRegistry(), new ProducerConfig(props.props()), topic, props.getString("broker.id"));
         }
     }
 }

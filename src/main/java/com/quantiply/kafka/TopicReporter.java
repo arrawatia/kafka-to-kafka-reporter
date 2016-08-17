@@ -35,13 +35,15 @@ public class TopicReporter extends AbstractPollingReporter implements MetricProc
     private final String topic;
     private  String brokerId ;
     private Producer producer;
+    private int initialDelayInSecs;
+    private boolean isInitialWaitDone = false;
 
-    public TopicReporter(MetricsRegistry metricsRegistry, ProducerConfig producerConfig, String topic, String brokerId) {
+    public TopicReporter(MetricsRegistry metricsRegistry, ProducerConfig producerConfig, String topic, String brokerId, int initialDelayInSecs) {
         super(metricsRegistry, "kafka-to-kafka-reporter");
         this.producerConfig = producerConfig;
         this.topic = topic;
         this.brokerId = brokerId;
-
+        this.initialDelayInSecs = initialDelayInSecs;
     }
 
     public void run() {
@@ -157,6 +159,14 @@ public class TopicReporter extends AbstractPollingReporter implements MetricProc
     }
     private void send(Map<String,String> message) {
         if(this.producer == null) {
+            if(!isInitialWaitDone){
+                try {
+                    Thread.sleep(initialDelayInSecs * 1000);
+                } catch (InterruptedException e) {
+                    // Gobble exception.
+                }
+                isInitialWaitDone = false;
+            }
             this.producer = new Producer(producerConfig);
         }
         message.put("brokerId", brokerId);

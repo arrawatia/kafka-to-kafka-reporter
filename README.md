@@ -1,3 +1,5 @@
+(HAS RACE CONDITIONS! DONT USE.)
+=====
 Kafka To Kafka Metrics Reporter
 ==============================
 Converts Kafka broker metrics to JSON and writes them a Kafka topic.
@@ -14,8 +16,8 @@ Configuration
 ------------
 1. Make sure that the metrics topic (default: kafka-metrics) exists on the broker. The broker will create it automatically if auto-creation of topics is not disabled.
 2. Edit the `server.properties` file of your installation, activate the reporter by setting:
- 
- 
+
+
         kafka.metrics.reporters=com.quantiply.kafka.KafkaToKafkaMetricsReporter[,kafka.metrics.KafkaCSVMetricsReporter, ...]
         kafka.to.kafka.metrics.reporter.enabled=true
         kafka.to.kafka.metrics.topic=kafka-metrics
@@ -23,4 +25,3 @@ Configuration
 Warning
 ---
 This is very experimental. Use at your own risk.
-
